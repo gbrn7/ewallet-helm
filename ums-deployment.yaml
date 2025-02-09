@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ums
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ums
+  template:
+    metadata:
+      labels:
+        app: ums
+    spec:
+      containers:
+        - name: ums
+          image: dickypratamss/ewallet-ums:latest
+          ports:
+            - containerPort: 8080 # HTTP
+            - containerPort: 7000 # gRPC
