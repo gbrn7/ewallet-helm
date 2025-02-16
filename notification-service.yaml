@@ -12,5 +12,5 @@ spec:
           name: grpc
           port: 7003
           targetPort: 7003 #HTTP
-          NodePort: 30005
+          nodePort: 30005
         
