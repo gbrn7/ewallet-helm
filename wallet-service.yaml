@@ -1,16 +1,16 @@
-apiVersion: apps/v1
+apiVersion: v1
 kind: Service
 metadata:
   name: wallet
+  namespace: ewallet
+  labels:
+    app: wallet
 spec:
-  selector: 
-    matchLabels:
-      app: wallet
-    type: NodePort 
-      ports:
-        - protocol: TCP
-          name: http
-          port: 80
-          targetPort: 8081 #HTTP
-          nodePort: 30001
-        
+  type: ClusterIP
+  selector:
+    app: wallet
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 8081

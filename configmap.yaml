@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ewallet-config
+  namespace: ewallet
+data:
+  DB_HOST: "mysql"
+  DB_PORT: "3306"
+  DB_USER: "root"
+  WALLET_HOST: "http://wallet:80"
+  WALLET_ENDPOINT_CREATE: "/wallet/v1"
+  WALLET_ENDPOINT_CREDIT: "/wallet/v1/balance/credit"
+  WALLET_ENDPOINT_DEBIT: "/wallet/v1/balance/debit"
+  UMS_GRPC_HOST: "ums:7000"
+  NOTIFICATION_GRPC_HOST: "notification:7003"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ewallet-secret
+  namespace: ewallet
+type: Opaque
+stringData:
+  DB_PASSWORD: "root"
+  APP_SECRET: "rahasia"

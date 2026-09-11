@@ -1,16 +1,16 @@
-apiVersion: apps/v1
+apiVersion: v1
 kind: Service
 metadata:
   name: notification
+  namespace: ewallet
+  labels:
+    app: notification
 spec:
-  selector: 
-    matchLabels:
-      app: notification
-    type: NodePort 
-      ports:
-        - protocol: TCP
-          name: grpc
-          port: 7003
-          targetPort: 7003 #HTTP
-          nodePort: 30005
-        
+  type: ClusterIP
+  selector:
+    app: notification
+  ports:
+    - protocol: TCP
+      name: grpc
+      port: 7003
+      targetPort: 7003

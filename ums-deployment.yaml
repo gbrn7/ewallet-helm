@@ -2,8 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ums
+  namespace: ewallet
+  labels:
+    app: ums
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: ums
@@ -14,7 +17,24 @@ spec:
     spec:
       containers:
         - name: ums
-          image: dickypratamss/ewallet-ums:latest
+          image: ewallet-ums:latest
+          imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080 # HTTP
-            - containerPort: 7000 # gRPC
+            - name: http
+              containerPort: 8080
+            - name: grpc
+              containerPort: 7000
+          envFrom:
+            - configMapRef:
+                name: ewallet-config
+            - secretRef:
+                name: ewallet-secret
+          env:
+            - name: APP_NAME
+              value: "ewallet-ums"
+            - name: PORT
+              value: "8080"
+            - name: GRPC_PORT
+              value: "7000"
+            - name: DB_NAME
+              value: "ewallet_ums"

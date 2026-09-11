@@ -2,25 +2,37 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wallet
+  namespace: ewallet
+  labels:
+    app: wallet
 spec:
-  replicas: 2
-  selector: 
+  replicas: 1
+  selector:
     matchLabels:
       app: wallet
-    template: 
-      metadata:
-        labels:
-          app: wallet
-      spec:
-        containers:
-         - name: wallet
-           image: gbrn7/ewallet-wallet:latest
-           ports:
-           -  containerPort: 8001 #HTTP
-           resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limit:
-              cpu: "200m"
-              memory: "256Mi"
+  template:
+    metadata:
+      labels:
+        app: wallet
+    spec:
+      containers:
+        - name: wallet
+          image: ewallet-wallet:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8081
+          envFrom:
+            - configMapRef:
+                name: ewallet-config
+            - secretRef:
+                name: ewallet-secret
+          env:
+            - name: APP_NAME
+              value: "ewallet-wallet"
+            - name: PORT
+              value: "8081"
+            - name: GRPC_PORT
+              value: "7001"
+            - name: DB_NAME
+              value: "ewallet_wallet"

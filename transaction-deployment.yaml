@@ -2,18 +2,37 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: transaction
+  namespace: ewallet
+  labels:
+    app: transaction
 spec:
-  replicas: 2
-  selector: 
+  replicas: 1
+  selector:
     matchLabels:
       app: transaction
-    template: 
-      metadata:
-        labels:
-          app: transaction
-      spec:
-        containers:
-         - name: transaction
-           image: gbrn7/ewallet-transaction:latest
-           ports:
-            - containerPort: 7082 #HTTP
+  template:
+    metadata:
+      labels:
+        app: transaction
+    spec:
+      containers:
+        - name: transaction
+          image: ewallet-transaction:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8082
+          envFrom:
+            - configMapRef:
+                name: ewallet-config
+            - secretRef:
+                name: ewallet-secret
+          env:
+            - name: APP_NAME
+              value: "ewallet-transaction"
+            - name: PORT
+              value: "8082"
+            - name: GRPC_PORT
+              value: "7002"
+            - name: DB_NAME
+              value: "ewallet_transaction"
