@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: notification
-          image: ewallet-notification:latest
-          imagePullPolicy: IfNotPresent
+          image: gbrn7/ewallet-notification:latest
+          imagePullPolicy: Always
           ports:
             - name: grpc
               containerPort: 7003

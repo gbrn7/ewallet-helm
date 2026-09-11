@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: transaction
-          image: ewallet-transaction:latest
-          imagePullPolicy: IfNotPresent
+          image: gbrn7/ewallet-transaction:latest
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8082

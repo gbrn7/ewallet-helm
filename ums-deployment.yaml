@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: ums
-          image: ewallet-ums:latest
-          imagePullPolicy: IfNotPresent
+          image: gbrn7/ewallet-ums:latest
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8080
